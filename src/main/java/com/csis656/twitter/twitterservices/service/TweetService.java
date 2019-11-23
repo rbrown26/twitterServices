@@ -29,11 +29,11 @@ public class TweetService {
         return tweetRepository.save(tweet);
     }
 
-    public List<Tweet> getAllTweetsByUserId(String userId) {
-        return tweetRepository.findAllByUserId(userId);
+    public List<Tweet> getAllTweetsByUserId(int id) {
+        return tweetRepository.findAllById(id);
     }
 
-    public Tweet getFirstTweetByUserId(String userId) {
-        return tweetRepository.findFirstByUserId(userId);
+    public Tweet getFirstTweetByUserId(int id) {
+        return tweetRepository.findFirstById(id);
     }
 }

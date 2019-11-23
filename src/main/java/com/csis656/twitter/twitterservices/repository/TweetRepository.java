@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TweetRepository extends BaseRepository<Tweet, Long> {
 
-    List<Tweet> findAllByUserId(String userId);
+    List<Tweet> findAllById(int id);
 
-    Tweet findFirstByUserId(String userId);
+    Tweet findFirstById(int id);
 }

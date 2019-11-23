@@ -26,14 +26,14 @@ public class ConnectionService {
         return connectionRepository.save(connection);
     }
 
-    public int getAllFollowersByUserId(int userId) {
-        List<Connection> connectionList = connectionRepository.findFollowersByUserId(userId);
+    public int getFollowersCountByUserId(int id) {
+        List<Connection> connectionList = connectionRepository.findFollowersById(id);
 
         return connectionList.size();
     }
 
-    public int getFollowerCountForUserId(int userId) {
-        List<Connection> connectionList = connectionRepository.findFollowedByUserId(userId);
+    public int getFollowedCountForUserId(int id) {
+        List<Connection> connectionList = connectionRepository.findFollowedById(id);
 
         return connectionList.size();
     }
