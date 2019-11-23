@@ -3,6 +3,7 @@ package com.csis656.twitter.twitterservices.api.mapping.request;
 import java.util.Date;
 
 public class TweetRequestObject {
+    private int id;
     private String message;
     private String createdBy;
     private int numberOfLikes;
@@ -10,12 +11,17 @@ public class TweetRequestObject {
     private Date updatedAt;
 
 
-    public TweetRequestObject(String message, String createdBy, int numberOfLikes, Date createdAt, Date updatedAt) {
+    public TweetRequestObject(int id, String message, String createdBy, int numberOfLikes, Date createdAt, Date updatedAt) {
+        this.id = id;
         this.message = message;
         this.createdBy = createdBy;
         this.numberOfLikes = numberOfLikes;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getMessage() {

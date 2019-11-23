@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ConnectionRepository extends BaseRepository<Connection, Long> {
 
-    List<Connection> findFollowersByUserId(int userId);
+    List<Connection> findFollowersById(int id);
 
-    List<Connection> findFollowedByUserId(int userId);
+    List<Connection> findFollowedById(int id);
 }
