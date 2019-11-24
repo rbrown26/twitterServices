@@ -1,7 +1,7 @@
 package com.csis656.twitter.twitterservices.config.security;
 
-import com.csis656.twitter.twitterservices.model.User;
-import com.csis656.twitter.twitterservices.service.UserService;
+import com.csis656.twitter.twitterservices.model.TwitterUser;
+import com.csis656.twitter.twitterservices.service.TwitterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,11 +13,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @Configuration
 public class AuthorizationConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
-    private UserService userService;
+    private TwitterUserService twitterUserService;
 
     @Autowired
-    public AuthorizationConfiguration(UserService userService) {
-        this.userService = userService;
+    public AuthorizationConfiguration(TwitterUserService twitterUserService) {
+        this.twitterUserService = twitterUserService;
     }
 
     @Override
@@ -27,10 +27,10 @@ public class AuthorizationConfiguration extends GlobalAuthenticationConfigurerAd
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return emailAddress -> {
-            User user = userService.getUserByEmailAddress(emailAddress);
-            return new org.springframework.security.core.userdetails.User(user.getEmailAddress(), user.getPassword(),
-                    true, true, true, true, AuthorityUtils.createAuthorityList(user.getEmailAddress()));
+        return username -> {
+            TwitterUser twitterUser = twitterUserService.getUserByUsername(username);
+            return new org.springframework.security.core.userdetails.User(twitterUser.getUsername(), twitterUser.getPassword(),
+                    true, true, true, true, AuthorityUtils.createAuthorityList(twitterUser.getUsername()));
         };
     }
 }

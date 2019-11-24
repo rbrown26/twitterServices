@@ -3,10 +3,10 @@ package com.csis656.twitter.twitterservices.api.controller;
 import com.csis656.twitter.twitterservices.api.exception.AuthenticationException;
 import com.csis656.twitter.twitterservices.api.mapping.request.AuthenticationRequest;
 import com.csis656.twitter.twitterservices.api.mapping.request.RegistrationRequestObject;
-import com.csis656.twitter.twitterservices.api.mapping.response.UserResponse;
+import com.csis656.twitter.twitterservices.api.mapping.response.TwitterUserResponse;
 import com.csis656.twitter.twitterservices.config.util.JwtTokenUtil;
-import com.csis656.twitter.twitterservices.model.User;
-import com.csis656.twitter.twitterservices.service.UserService;
+import com.csis656.twitter.twitterservices.model.TwitterUser;
+import com.csis656.twitter.twitterservices.service.TwitterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,8 +15,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -24,39 +22,34 @@ import java.util.Objects;
 public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
-    private UserService userService;
-
-    private JwtTokenUtil jwtTokenUtil;
+    private TwitterUserService twitterUserService;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, JwtTokenUtil jwtTokenUtil) {
+    public AuthenticationController(AuthenticationManager authenticationManager, TwitterUserService twitterUserService, JwtTokenUtil jwtTokenUtil) {
         this.authenticationManager = authenticationManager;
-        this.userService = userService;
-        this.jwtTokenUtil = jwtTokenUtil;
+        this.twitterUserService = twitterUserService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @CrossOrigin
     public ResponseEntity register(@RequestBody RegistrationRequestObject registrationRequest) {
-        userService.create(registrationRequest);
+        twitterUserService.create(registrationRequest);
 
         return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     @CrossOrigin
-    public ResponseEntity<UserResponse> login(@RequestBody AuthenticationRequest authenticationRequest) throws AuthenticationException {
-        String authenticationEmail = authenticationRequest.getEmailAddress();
-        authenticate(authenticationEmail, authenticationRequest.getPassword());
+    public ResponseEntity<TwitterUserResponse> login(@RequestBody AuthenticationRequest authenticationRequest) throws AuthenticationException {
+        String authenticationUsername = authenticationRequest.getUsername();
+        authenticate(authenticationUsername, authenticationRequest.getPassword());
 
-        // Reload user post auth to populate token
-        final User user = userService.getUserByEmailAddress(authenticationEmail);
-        Map<String, Object> roleMap = new HashMap<>();
-        String userEmail = user.getEmailAddress();
-        roleMap.put("sub", userEmail);
-        final String token = jwtTokenUtil.generateToken(roleMap);
+        // Reload twitterUser post auth to populate token
+        final TwitterUser twitterUser = twitterUserService.getUserByUsername(authenticationUsername);
 
-        return ResponseEntity.ok(new UserResponse(user.getId(), userEmail, token));
+
+
+        return ResponseEntity.ok(new TwitterUserResponse(twitterUser.getId(), authenticationUsername));
     }
 
     /**
@@ -69,7 +62,7 @@ public class AuthenticationController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
-            throw new AuthenticationException("User is disabled!", e);
+            throw new AuthenticationException("TwitterUser is disabled!", e);
         } catch (BadCredentialsException e) {
             throw new AuthenticationException("Bad credentials!", e);
         }

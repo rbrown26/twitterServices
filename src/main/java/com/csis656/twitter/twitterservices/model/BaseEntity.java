@@ -22,9 +22,6 @@ public abstract class BaseEntity implements Serializable {
     @JsonIgnore
     private Date lastChangedDate = new Date();
 
-    @JsonIgnore
-    private String dbNote;
-
     public UUID getId() {
         return id;
     }
@@ -35,9 +32,5 @@ public abstract class BaseEntity implements Serializable {
 
     public Date getLastChangedDate() {
         return lastChangedDate;
-    }
-
-    public String getDbNote() {
-        return dbNote;
     }
 }
