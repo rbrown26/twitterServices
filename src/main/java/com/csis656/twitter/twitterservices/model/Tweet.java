@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Entity
 public class Tweet extends BaseEntity {
@@ -13,54 +14,34 @@ public class Tweet extends BaseEntity {
     @Column(nullable = false)
     private String message;
 
-    @Column
-    private int numberOfLikes;
+//    @Column
+//    private int numberOfLikes;
 
-    @NotBlank
     @Column(nullable = false)
-    private String createdBy;
+    private UUID createdBy;
 
-    @NotBlank
-    @Column(nullable = false)
-    private String createdAt;
 
-    @Column
-    private String updatedAt;
-
-    private Tweet(String message, String createdBy, int numberOfLikes, String createdAt, String updatedAt) {
+    private Tweet(String message, UUID createdBy) {
         this.message = message;
-        this.numberOfLikes = numberOfLikes;
         this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public static Tweet create(@NonNull String message,
-                               @NonNull String createdBy,
-                               int numberOfLikes,
-                               String createdAt) {
+                               @NonNull UUID createdBy) {
 
-        return new Tweet(message, createdBy, numberOfLikes, createdAt, null);
+        return new Tweet(message, createdBy);
     }
 
     public String getMessage() {
         return message;
     }
 
-    public String getCreatedBy() {
+    public UUID getCreatedBy() {
         return createdBy;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public int getNumberOfLikes() {
-        return numberOfLikes;
-    }
+//    public int getNumberOfLikes() {
+//        return numberOfLikes;
+//    }
 }
 

@@ -16,9 +16,9 @@ public class TweetController {
         this.tweetService = tweetService;
     }
 
-    @RequestMapping(value = "/tweet", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @CrossOrigin
-    public ResponseEntity connect(@RequestBody TweetRequestObject tweetRequestObject) {
+    public ResponseEntity add(@RequestBody TweetRequestObject tweetRequestObject) {
         tweetService.create(tweetRequestObject);
 
         return ResponseEntity.ok().build();
@@ -27,7 +27,7 @@ public class TweetController {
     @RequestMapping(value = "/tweets", method = RequestMethod.GET)
     @CrossOrigin
     public ResponseEntity get(@RequestBody TweetRequestObject tweetRequestObject) {
-        tweetService.getAllTweetsByUserId(tweetRequestObject.getId());
+        tweetService.getAllTweetsByUserId(tweetRequestObject.getCreatedBy());
 
         return ResponseEntity.ok().build();
     }
@@ -35,7 +35,7 @@ public class TweetController {
     @RequestMapping(value = "/tweet", method = RequestMethod.GET)
     @CrossOrigin
     public ResponseEntity getFollowers(@RequestBody TweetRequestObject tweetRequestObject) {
-        tweetService.getFirstTweetByUserId(tweetRequestObject.getId());
+        tweetService.getFirstTweetByUserId(tweetRequestObject.getCreatedBy());
 
         return ResponseEntity.ok().build();
     }
