@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TweetService {
@@ -21,19 +22,19 @@ public class TweetService {
 
     public Tweet create(TweetRequestObject tweetRequestObject) {
         Tweet tweet = Tweet.create(tweetRequestObject.getMessage(),
-                tweetRequestObject.getCreatedBy(),
-                tweetRequestObject.getNumberOfLikes(),
-                new Date().toString()
+                tweetRequestObject.getCreatedBy()
+//                tweetRequestObject.getNumberOfLikes(),
+//                new Date().toString()
                 );
 
         return tweetRepository.save(tweet);
     }
 
-    public List<Tweet> getAllTweetsByUserId(int id) {
-        return tweetRepository.findAllById(id);
+    public List<Tweet> getAllTweetsByUserId(UUID createdBy) {
+        return tweetRepository.findAllById(createdBy);
     }
 
-    public Tweet getFirstTweetByUserId(int id) {
-        return tweetRepository.findFirstById(id);
+    public Tweet getFirstTweetByUserId(UUID createdBy) {
+        return tweetRepository.findFirstById(createdBy);
     }
 }
