@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class AuthenticationRequest implements Serializable {
 
-    private String emailAddress;
+    private String username;
 
     private String password;
 
-    public AuthenticationRequest(String emailAddress, String password) {
-        this.emailAddress = emailAddress;
+    public AuthenticationRequest(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {

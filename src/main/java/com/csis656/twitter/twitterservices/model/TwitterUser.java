@@ -8,30 +8,34 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-public class User extends BaseEntity {
+public class TwitterUser extends BaseEntity {
 
     @NotBlank
     @Column(nullable = false)
-    private String emailAddress;
+    private String username;
 
     @NotBlank
     @JsonIgnore
     @Column(nullable = false)
     private String password;
 
-    private User(String emailAddress, String password) {
-        this.emailAddress = emailAddress;
+    private TwitterUser() {
+
+    }
+
+    private TwitterUser(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public static User create(@NonNull String emailAddress,
-                              @NonNull String password) {
+    public static TwitterUser create(@NonNull String username,
+                                     @NonNull String password) {
 
-        return new User(emailAddress, password);
+        return new TwitterUser(username, password);
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
