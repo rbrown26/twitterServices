@@ -27,6 +27,10 @@ public class ConnectionService {
         return connectionRepository.save(connection);
     }
 
+    public void deleteByFollowedAndFollower(UUID followed, UUID follower) {
+        connectionRepository.deleteByFollowedAndFollower(followed, follower);
+    }
+
     public List<Connection> getAllByFollower(UUID id) {
         return connectionRepository.getAllByFollower(id);
     }

@@ -34,6 +34,14 @@ public class ConnectionController {
         return ResponseEntity.ok().build();
     }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @CrossOrigin
+    public ResponseEntity delete(@RequestBody ConnectionRequestObject connectionRequestObject) {
+        connectionService.deleteByFollowedAndFollower(connectionRequestObject.getFollowed(), connectionRequestObject.getFollower());
+
+        return ResponseEntity.ok().build();
+    }
+
     @RequestMapping(value = "/{userId}/following", method = RequestMethod.GET)
     @CrossOrigin
     public ResponseEntity<List<TwitterUser>> getFollows(@PathVariable("userId") UUID id) {
