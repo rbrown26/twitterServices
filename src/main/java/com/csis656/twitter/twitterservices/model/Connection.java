@@ -4,39 +4,37 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Entity
 public class Connection extends BaseEntity {
 
-    @NotBlank
     @Column(nullable = false)
-    private int followed;
+    private UUID followed;
 
-    @NotBlank
     @Column(nullable = false)
-    private int follower;
+    private UUID follower;
 
     private Connection() {
 
     }
 
-    private Connection(int followed, int follower) {
+    private Connection(UUID followed, UUID follower) {
         this.followed = followed;
         this.follower = follower;
     }
 
-    public static Connection create(@NonNull int followed,
-                              @NonNull int follower) {
+    public static Connection create(@NonNull UUID followed,
+                              @NonNull UUID follower) {
 
         return new Connection(followed, follower);
     }
 
-    public int getFollowed() {
+    public UUID getFollowed() {
         return followed;
     }
 
-    public int getFollower() {
+    public UUID getFollower() {
         return follower;
     }
 }

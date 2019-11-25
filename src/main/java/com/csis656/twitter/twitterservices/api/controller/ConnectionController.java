@@ -1,35 +1,50 @@
 package com.csis656.twitter.twitterservices.api.controller;
 
 import com.csis656.twitter.twitterservices.api.mapping.request.ConnectionRequestObject;
+import com.csis656.twitter.twitterservices.model.Connection;
+import com.csis656.twitter.twitterservices.model.TwitterUser;
 import com.csis656.twitter.twitterservices.service.ConnectionService;
+import com.csis656.twitter.twitterservices.service.TwitterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 @RestController
-@RequestMapping(value = "conn")
+@RequestMapping(value = "connection")
 public class ConnectionController {
     private ConnectionService connectionService;
+    private TwitterUserService twitterUserService;
 
     @Autowired
-    public ConnectionController(ConnectionService connectionService) {
+    public ConnectionController(ConnectionService connectionService, TwitterUserService twitterUserService) {
         this.connectionService = connectionService;
+        this.twitterUserService = twitterUserService;
     }
 
-    @RequestMapping(value = "/connection", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @CrossOrigin
-    public ResponseEntity connect(@RequestBody ConnectionRequestObject connectionRequestObject) {
+    public ResponseEntity create(@RequestBody ConnectionRequestObject connectionRequestObject) {
         connectionService.create(connectionRequestObject);
 
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/connection/follows", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}/following", method = RequestMethod.GET)
     @CrossOrigin
-    public ResponseEntity getFollows(@RequestBody ConnectionRequestObject connectionRequestObject) {
-        connectionService.getFollowedCountForUserId(connectionRequestObject.getId());
+    public ResponseEntity<List<TwitterUser>> getFollows(@PathVariable("userId") UUID id) {
+        List<Connection> connections = connectionService.getAllByFollower(id);
+        List<TwitterUser> twitterUsers = new ArrayList<>();
+        for (Connection connection : connections) {
+            TwitterUser twitterUser = twitterUserService.getUserById(connection.getFollowed());
+            twitterUsers.add(twitterUser);
+        }
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(twitterUsers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/connection/followers", method = RequestMethod.GET)
