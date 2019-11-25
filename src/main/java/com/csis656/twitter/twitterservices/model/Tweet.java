@@ -20,6 +20,9 @@ public class Tweet extends BaseEntity {
     @Column(nullable = false)
     private UUID createdBy;
 
+    private Tweet() {
+
+    }
 
     private Tweet(String message, UUID createdBy) {
         this.message = message;

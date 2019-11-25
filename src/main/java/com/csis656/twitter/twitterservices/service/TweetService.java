@@ -30,11 +30,11 @@ public class TweetService {
         return tweetRepository.save(tweet);
     }
 
-    public List<Tweet> getAllTweetsByUserId(UUID createdBy) {
-        return tweetRepository.findAllById(createdBy);
+    public List<Tweet> getAllTweetsByCreatedByOrderByDateCreatedDesc(UUID createdBy) {
+        return tweetRepository.findAllByCreatedByOrderByDateCreatedDesc(createdBy);
     }
 
-    public Tweet getFirstTweetByUserId(UUID createdBy) {
-        return tweetRepository.findFirstById(createdBy);
+    public Tweet getFirstTweetByCreatedBy(UUID createdBy) {
+        return tweetRepository.findFirstByCreatedBy(createdBy);
     }
 }

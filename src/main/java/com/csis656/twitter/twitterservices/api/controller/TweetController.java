@@ -1,10 +1,20 @@
 package com.csis656.twitter.twitterservices.api.controller;
 
 import com.csis656.twitter.twitterservices.api.mapping.request.TweetRequestObject;
+import com.csis656.twitter.twitterservices.api.mapping.response.TweetResponse;
+import com.csis656.twitter.twitterservices.api.mapping.response.TwitterUserResponse;
+import com.csis656.twitter.twitterservices.model.Tweet;
 import com.csis656.twitter.twitterservices.service.TweetService;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "tweet")
@@ -24,18 +34,21 @@ public class TweetController {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/tweets", method = RequestMethod.GET)
+    @RequestMapping(value = "/{createdBy}/all", method = RequestMethod.GET)
     @CrossOrigin
-    public ResponseEntity get(@RequestBody TweetRequestObject tweetRequestObject) {
-        tweetService.getAllTweetsByUserId(tweetRequestObject.getCreatedBy());
+    public ResponseEntity<List<Tweet>> getAllTweetsByCreatedByOrderByDateCreatedDesc(@PathVariable("createdBy") UUID createdBy) {
+        List<Tweet> tweets = tweetService.getAllTweetsByCreatedByOrderByDateCreatedDesc(createdBy);
+        if (tweets.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(tweets, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/tweet", method = RequestMethod.GET)
     @CrossOrigin
-    public ResponseEntity getFollowers(@RequestBody TweetRequestObject tweetRequestObject) {
-        tweetService.getFirstTweetByUserId(tweetRequestObject.getCreatedBy());
+    public ResponseEntity getFollowersByCreatedBy(@RequestBody TweetRequestObject tweetRequestObject) {
+        tweetService.getFirstTweetByCreatedBy(tweetRequestObject.getCreatedBy());
 
         return ResponseEntity.ok().build();
     }
