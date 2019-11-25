@@ -35,14 +35,18 @@ public class ConnectionService {
         return connectionRepository.getAllByFollower(id);
     }
 
-    public int getFollowersCountByUserId(UUID id) {
-        List<Connection> connectionList = connectionRepository.findFollowersById(id);
+    public List<Connection> getAllByFollowed(UUID id) {
+        return connectionRepository.getAllByFollowed(id);
+    }
+
+    public int getFollowingCountByUserId(UUID id) {
+        List<Connection> connectionList = connectionRepository.getAllByFollower(id);
 
         return connectionList.size();
     }
 
     public int getFollowedCountForUserId(UUID id) {
-        List<Connection> connectionList = connectionRepository.findFollowedById(id);
+        List<Connection> connectionList = connectionRepository.getAllByFollowed(id);
 
         return connectionList.size();
     }

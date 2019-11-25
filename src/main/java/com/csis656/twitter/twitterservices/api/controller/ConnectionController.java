@@ -55,11 +55,32 @@ public class ConnectionController {
         return new ResponseEntity<>(twitterUsers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/connection/followers", method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}/followers/count", method = RequestMethod.GET)
     @CrossOrigin
-    public ResponseEntity getFollowers(@RequestBody ConnectionRequestObject connectionRequestObject) {
-        connectionService.getFollowersCountByUserId(connectionRequestObject.getId());
+    public ResponseEntity getCountFollowsById(@PathVariable("userId") UUID id) {
+        int followingCount = connectionService.getFollowedCountForUserId(id);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity(followingCount, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{userId}/followers", method = RequestMethod.GET)
+    @CrossOrigin
+    public ResponseEntity<List<TwitterUser>> getFollowers(@PathVariable("userId") UUID id) {
+        List<Connection> connections = connectionService.getAllByFollowed(id);
+        List<TwitterUser> twitterUsers = new ArrayList<>();
+        for (Connection connection : connections) {
+            TwitterUser twitterUser = twitterUserService.getUserById(connection.getFollower());
+            twitterUsers.add(twitterUser);
+        }
+
+        return new ResponseEntity<>(twitterUsers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{userId}/following/count", method = RequestMethod.GET)
+    @CrossOrigin
+    public ResponseEntity getCountFollowersById(@PathVariable("userId") UUID id) {
+        int followersCount = connectionService.getFollowingCountByUserId(id);
+
+        return new ResponseEntity(followersCount, HttpStatus.OK);
     }
 }
