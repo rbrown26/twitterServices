@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TwitterUserService {
     private static final int ENCODING_STRENGTH = 12;
@@ -24,6 +26,10 @@ public class TwitterUserService {
     @Autowired
     public TwitterUserService(TwitterUserRepository twitterUserRepository) {
         this.twitterUserRepository = twitterUserRepository;
+    }
+
+    public List<TwitterUser> findAll() {
+        return twitterUserRepository.findAll();
     }
 
     public TwitterUser create(RegistrationRequestObject registrationRequestObject) {

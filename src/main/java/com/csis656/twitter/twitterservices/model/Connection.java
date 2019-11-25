@@ -17,6 +17,10 @@ public class Connection extends BaseEntity {
     @Column(nullable = false)
     private int follower;
 
+    private Connection() {
+
+    }
+
     private Connection(int followed, int follower) {
         this.followed = followed;
         this.follower = follower;
