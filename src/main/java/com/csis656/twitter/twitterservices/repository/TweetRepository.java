@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface TweetRepository extends BaseRepository<Tweet, Long> {
 
-    List<Tweet> findAllById(UUID createdBy);
+    List<Tweet> findAllByCreatedByOrderByDateCreatedDesc(UUID createdBy);
 
-    Tweet findFirstById(UUID createdBy);
+    Tweet findFirstByCreatedBy(UUID createdBy);
 }
