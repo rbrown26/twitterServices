@@ -1,25 +1,27 @@
 package com.csis656.twitter.twitterservices.api.mapping.request;
 
-public class ConnectionRequestObject {
-    private int followed;
-    private int follower;
-    private int id;
+import java.util.UUID;
 
-    public ConnectionRequestObject(int followed, int follower, int id) {
+public class ConnectionRequestObject {
+    private UUID followed;
+    private UUID follower;
+    private UUID id;
+
+    public ConnectionRequestObject(UUID followed, UUID follower, UUID id) {
         this.followed = followed;
         this.follower = follower;
         this.id = id;
     }
 
-    public int getFollowed() {
+    public UUID getFollowed() {
         return followed;
     }
 
-    public int getFollower() {
+    public UUID getFollower() {
         return follower;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 }

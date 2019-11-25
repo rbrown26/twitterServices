@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ConnectionService {
@@ -26,13 +27,17 @@ public class ConnectionService {
         return connectionRepository.save(connection);
     }
 
-    public int getFollowersCountByUserId(int id) {
+    public List<Connection> getAllByFollower(UUID id) {
+        return connectionRepository.getAllByFollower(id);
+    }
+
+    public int getFollowersCountByUserId(UUID id) {
         List<Connection> connectionList = connectionRepository.findFollowersById(id);
 
         return connectionList.size();
     }
 
-    public int getFollowedCountForUserId(int id) {
+    public int getFollowedCountForUserId(UUID id) {
         List<Connection> connectionList = connectionRepository.findFollowedById(id);
 
         return connectionList.size();
