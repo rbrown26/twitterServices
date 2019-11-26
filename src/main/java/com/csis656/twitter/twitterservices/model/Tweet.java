@@ -14,9 +14,6 @@ public class Tweet extends BaseEntity {
     @Column(nullable = false)
     private String message;
 
-//    @Column
-//    private int numberOfLikes;
-
     @Column(nullable = false)
     private UUID createdBy;
 
@@ -42,9 +39,5 @@ public class Tweet extends BaseEntity {
     public UUID getCreatedBy() {
         return createdBy;
     }
-
-//    public int getNumberOfLikes() {
-//        return numberOfLikes;
-//    }
 }
 
