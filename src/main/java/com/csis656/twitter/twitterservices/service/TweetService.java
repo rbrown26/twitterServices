@@ -6,7 +6,6 @@ import com.csis656.twitter.twitterservices.repository.TweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +22,6 @@ public class TweetService {
     public Tweet create(TweetRequestObject tweetRequestObject) {
         Tweet tweet = Tweet.create(tweetRequestObject.getMessage(),
                 tweetRequestObject.getCreatedBy()
-//                tweetRequestObject.getNumberOfLikes(),
-//                new Date().toString()
                 );
 
         return tweetRepository.save(tweet);
@@ -32,9 +29,5 @@ public class TweetService {
 
     public List<Tweet> getAllTweetsByCreatedByOrderByDateCreatedDesc(UUID createdBy) {
         return tweetRepository.findAllByCreatedByOrderByDateCreatedDesc(createdBy);
-    }
-
-    public Tweet getFirstTweetByCreatedBy(UUID createdBy) {
-        return tweetRepository.findFirstByCreatedBy(createdBy);
     }
 }

@@ -1,8 +1,6 @@
 package com.csis656.twitter.twitterservices.api.controller;
 
-import com.csis656.twitter.twitterservices.model.Connection;
 import com.csis656.twitter.twitterservices.model.TwitterUser;
-import com.csis656.twitter.twitterservices.service.ConnectionService;
 import com.csis656.twitter.twitterservices.service.TwitterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

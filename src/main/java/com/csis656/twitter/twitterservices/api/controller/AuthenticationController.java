@@ -4,7 +4,6 @@ import com.csis656.twitter.twitterservices.api.exception.AuthenticationException
 import com.csis656.twitter.twitterservices.api.mapping.request.AuthenticationRequest;
 import com.csis656.twitter.twitterservices.api.mapping.request.RegistrationRequestObject;
 import com.csis656.twitter.twitterservices.api.mapping.response.TwitterUserResponse;
-import com.csis656.twitter.twitterservices.config.util.JwtTokenUtil;
 import com.csis656.twitter.twitterservices.model.TwitterUser;
 import com.csis656.twitter.twitterservices.service.TwitterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class AuthenticationController {
     private TwitterUserService twitterUserService;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, TwitterUserService twitterUserService, JwtTokenUtil jwtTokenUtil) {
+    public AuthenticationController(AuthenticationManager authenticationManager, TwitterUserService twitterUserService) {
         this.authenticationManager = authenticationManager;
         this.twitterUserService = twitterUserService;
     }
